@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { ChevronRight, CircleArrowUp, MoreVertical, BadgePlus } from "lucide-react";
+import { ChevronRight, CircleArrowUp, MoreVertical, BadgeCheck } from "lucide-react";
 import { toast } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { actions, money, num, OBJECTIVES, STATUS_LABEL, type Campaign } from "@/lib/ads-store";
@@ -20,7 +20,7 @@ export function CampaignCard({ c, currency, factor }: { c: Campaign; currency: "
   const resultLabel = campaignResult(c, OBJECTIVES[c.objective].result);
   return (
     <Card className="min-w-0 p-4 sm:p-5">
-      <div className="mb-3 flex items-center gap-1 text-xs font-semibold"><BadgePlus className="h-3.5 w-3.5" />New</div>
+      <div className="mb-3 flex items-center gap-1 text-xs font-semibold"><BadgeCheck className="h-3.5 w-3.5 fill-foreground stroke-card" />New</div>
       <div className="flex items-start gap-3">
         <div className="relative">
           {c.ad.image ? <img src={c.ad.image} alt={`${c.name} creative`} className="campaign-thumb" /> : <ObjectiveIcon k={c.objective} />}

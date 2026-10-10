@@ -25,6 +25,7 @@ type Modal = null | "funds" | "method" | "limit" | "tax" | "activity" | "busines
 
 function Billing() {
   const a = useCurrentAccount();
+  const [taxDismissed, setTaxDismissed] = useState(false);
   const [m, setM] = useState<Modal>(null);
   const [amount, setAmount] = useState("");
   const [via, setVia] = useState("UPI");
@@ -58,9 +59,10 @@ function Billing() {
     <Frame nav={false}>
       <PageHeader title="Billing & payments" />
       <div className="reference-billing bg-card px-4">
-        {!a.taxVerified && (
+        {!a.taxVerified && !taxDismissed && (
           <div className="reference-tax my-4 rounded-lg border p-3">
-            <p className="font-medium">Verify your tax information</p>
+            <Button variant="plain" size="icon" className="tax-close" aria-label="Dismiss tax reminder" onClick={()=>setTaxDismissed(true)}><X /></Button>
+            <p className="font-semibold">Verify your tax info</p>
             <p className="text-sm text-muted-foreground">Submit your GST number to confirm that you're a registered taxpayer. We need this info to comply with local tax regulations.</p>
             <Button variant="meta" onClick={() => setM("tax")} className="mt-3 w-full">Verify tax info</Button>
           </div>

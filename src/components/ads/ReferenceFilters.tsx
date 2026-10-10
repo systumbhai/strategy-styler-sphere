@@ -27,6 +27,10 @@ export function ReferenceFilters({ open, onClose, status, onStatus, onDate }: {
   const [start, setStart] = useState<number | null>(null);
   const [end, setEnd] = useState<number | null>(null);
   const isCalendar = open === "custom" || custom;
+  const now = new Date();
+  const formatDate = (date: Date) => date.toLocaleDateString("en-US", { month:"short", day:"numeric" });
+  const ago = (days: number) => { const date = new Date(now); date.setDate(date.getDate()-days); return date; };
+  const dateRange = (text: string) => text === "Maximum" ? `${formatDate(new Date(now.getFullYear()-3,now.getMonth()-1,10))} ${now.getFullYear()-3} – ${formatDate(now)} ${now.getFullYear()}` : text === "Today" ? formatDate(now) : text === "Yesterday" ? formatDate(ago(1)) : text === "Last 7 days" ? `${formatDate(ago(7))} – ${formatDate(ago(1))}` : text === "Last 30 days" ? `${formatDate(ago(30))} – ${formatDate(ago(1))}` : text === "This week" ? `${formatDate(ago(now.getDay()))} – ${formatDate(now)}` : `${formatDate(new Date(now.getFullYear(),now.getMonth(),1))} – ${formatDate(now)}`;
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
   const offset = (month.getDay() + 6) % 7;
   const close = () => { setCustom(false); onClose(); };
@@ -41,7 +45,7 @@ export function ReferenceFilters({ open, onClose, status, onStatus, onDate }: {
         <div className="grid grid-cols-3 gap-2 border-t pt-3">{DATE_OPTIONS.slice(3, 6).map(option => <Button variant="metaOutline" key={option.label} onClick={() => { setLabel(option.label); onDate(option.value, option.label); close(); }}>{option.label}</Button>)}</div>
         <div className="flex items-center justify-between py-4"><strong>Campaigns</strong><ChevronDown /></div><p className="mb-4 text-sm">All campaigns</p>
         <Button variant="meta" className="w-full" onClick={() => { onDate("max", start ? "Custom date range" : "Maximum"); close(); }}>View campaigns</Button>
-      </div> : <div className="reference-choice-list">{DATE_OPTIONS.map(option => <Button variant="plain" key={option.label} role="radio" aria-checked={label === option.label} className="reference-choice" onClick={() => { setLabel(option.label); onDate(option.value, option.label); close(); }}><span>{option.label}</span>{label === option.label ? <CircleDot /> : <Circle className="text-muted-foreground" />}</Button>)}<Button variant="plain" className="reference-choice border-t" onClick={() => setCustom(true)}>Custom date range<ChevronRight /></Button></div>}
+      </div> : <div className="reference-choice-list">{DATE_OPTIONS.map(option => <Button variant="plain" key={option.label} role="radio" aria-checked={label === option.label} className="reference-choice" onClick={() => { setLabel(option.label); onDate(option.value, option.label); close(); }}><span>{option.label}<small>{dateRange(option.label)}</small></span>{label === option.label ? <CircleDot /> : <Circle className="text-muted-foreground" />}</Button>)}<Button variant="plain" className="reference-choice border-t" onClick={() => setCustom(true)}>Custom date range<ChevronRight /></Button></div>}
       <span className="reference-sheet-handle" />
     </SheetContent>
   </Sheet>;
