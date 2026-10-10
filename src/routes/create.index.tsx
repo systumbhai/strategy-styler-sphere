@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Frame, ObjectiveIcon, PageHeader } from "@/components/ads/Shell";
 import { OBJECTIVES, type ObjectiveKey } from "@/lib/ads-store";
 import { DuplicateSheet } from "@/components/ads/DuplicateSheet";
+import { EngagementSetup } from "@/components/ads/EngagementSetup";
 
 export const Route = createFileRoute("/create/")({
   head: () => ({
@@ -22,6 +23,7 @@ export const Route = createFileRoute("/create/")({
 
 function CreatePick() {
   const [dup, setDup] = useState(false);
+  const [setupOpen, setSetupOpen] = useState(true);
   return (
     <Frame nav={false}>
       <PageHeader title="Create new campaign" close />
@@ -47,6 +49,7 @@ function CreatePick() {
         })}
       </div>
       <DuplicateSheet open={dup} onOpenChange={setDup} />
+      <EngagementSetup open={setupOpen} onOpenChange={setSetupOpen} />
     </Frame>
   );
 }
