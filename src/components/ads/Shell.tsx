@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, HelpCircle, Home, Lightbulb, X, MessageCircle, Megaphone, MousePointer2, ClipboardList, ShoppingBag, Smartphone } from "lucide-react";
+import { ChevronLeft, HelpCircle, Home, Lightbulb, X, MessageCircle, Megaphone, MousePointer2, ClipboardList, ShoppingBag, Smartphone } from "lucide-react";
 import type { ReactNode } from "react";
 import { OBJECTIVES, type ObjectiveKey } from "@/lib/ads-store";
 
@@ -16,7 +16,7 @@ export function Frame({ children, nav = true }: { children: ReactNode; nav?: boo
 function BottomNav() {
   return (
     <nav className="meta-nav" aria-label="Main navigation">
-      <Link to="/" aria-label="Home" activeOptions={{ exact: true }}><Home /></Link>
+      <Link to="/" aria-label="Home" activeOptions={{ exact: true }}><svg viewBox="0 0 32 32" aria-hidden="true"><path className="nav-home" d="M4 14 16 4l12 10v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" strokeLinejoin="round"/><path className="nav-home-door" d="M13 29v-9h6v9" strokeLinejoin="round"/></svg></Link>
       <Link to="/recommendations" aria-label="Recommendations"><Lightbulb /></Link>
       <Link to="/help" aria-label="Help"><HelpCircle /></Link>
     </nav>
@@ -28,7 +28,7 @@ export function PageHeader({ title, close, right }: { title: string; close?: boo
   return (
     <header className="meta-page-header sticky top-0 z-20 grid grid-cols-[36px_minmax(0,1fr)_36px] items-center gap-2 border-b bg-card px-3 py-2">
       <Button variant="plain" aria-label="Back" onClick={() => router.history.back()} className="rounded-full p-1.5 hover:bg-muted">
-        {close ? <X className="h-6 w-6" /> : <ArrowLeft className="h-6 w-6" />}
+        {close ? <X className="h-6 w-6" /> : <ChevronLeft className="h-6 w-6" />}
       </Button>
       <h1 className="min-w-0 text-center text-lg font-semibold">{title}</h1>
       <div className="min-w-9 flex justify-end">{right}</div>

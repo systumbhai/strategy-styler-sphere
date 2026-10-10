@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Card, Frame } from "@/components/ads/Shell";
 import { actions, useAds, useCurrentAccount, type Campaign } from "@/lib/ads-store";
 import { AssistantIcon } from "@/components/ads/AssistantIcon";
-import recommendationBanner from "@/assets/recommendations-banner.jpg";
+import recommendationBanner from "@/assets/recommendations-banner.jpg.asset.json";
 
 export const Route = createFileRoute("/recommendations")({
   head: () => ({
@@ -40,7 +40,7 @@ function Recs() {
       <section className="reference-score-section"><div className="reference-score-ring"><strong>100</strong><span>points</span></div><p className="flex items-center justify-center gap-1 font-semibold">Opportunity score<Info className="h-3.5 w-3.5" /></p></section>
       <div className="reference-recs-tabs" role="tablist" aria-label="Recommendations"><Button variant="plain" role="tab" aria-selected={tab === "available"} onClick={() => setTab("available")}>Available</Button><Button variant="plain" role="tab" aria-selected={tab === "dismissed"} onClick={() => setTab("dismissed")}>Dismissed</Button></div>
       <div className="space-y-3 p-4">
-        {(tab === "available" ? !bannerDismissed : bannerDismissed) && <Card className="overflow-hidden"><img src={recommendationBanner} alt="Relaxed woman reclining in a lounge chair" width={1280} height={512} className="reference-recs-banner" /><div className="p-4"><div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2"><h2 className="min-w-0 text-lg font-semibold leading-snug">Optimize your campaigns with automatic adjustments</h2><Button variant="ghost" size="icon" aria-label={bannerDismissed ? "Restore recommendation" : "Dismiss automatic adjustments"} onClick={() => setBannerDismissed(value => !value)}><X /></Button></div><p className="my-3">Save time and stay optimized by automatically applying the most impactful performance recommendations.</p><Button variant="meta" className="w-full" onClick={() => { setSetupOpen(value => !value); setTab("available"); }}>Set up now</Button></div></Card>}
+        {(tab === "available" ? !bannerDismissed : bannerDismissed) && <Card className="overflow-hidden"><img src={recommendationBanner.url} alt="Relaxed woman reclining in a lounge chair" width={1280} height={512} className="reference-recs-banner" /><div className="p-4"><div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2"><h2 className="min-w-0 text-lg font-semibold leading-snug">Optimize your campaigns with automatic adjustments</h2><Button variant="ghost" size="icon" aria-label={bannerDismissed ? "Restore recommendation" : "Dismiss automatic adjustments"} onClick={() => setBannerDismissed(value => !value)}><X /></Button></div><p className="my-3">Save time and stay optimized by automatically applying the most impactful performance recommendations.</p><Button variant="meta" className="w-full" onClick={() => { setSetupOpen(value => !value); setTab("available"); }}>Set up now</Button></div></Card>}
         {setupOpen && <div className="border-b py-2 text-sm text-muted-foreground">Demo recommendations only · Automatic adjustments are not connected to Meta.</div>}
         {tab === "dismissed" && !bannerDismissed && <p className="py-4 text-center text-sm text-muted-foreground">No dismissed recommendations.</p>}
         {tab === "available" && setupOpen && <>
