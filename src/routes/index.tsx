@@ -4,7 +4,7 @@ import { Bell, ChevronDown, ChevronRight, Copy, ListFilter, Plus, Search, Settin
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { ReferenceFilters } from "@/components/ads/ReferenceFilters";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { EngagementSetup } from "@/components/ads/EngagementSetup";
 import { CampaignCard, statusColor } from "@/components/ads/CampaignCard";
 import { AssistantIcon } from "@/components/ads/AssistantIcon";
 import { Card, Frame } from "@/components/ads/Shell";
@@ -130,19 +130,7 @@ function Home() {
         ) : list.map((c) => <CampaignCard key={c.id} c={c} currency={acct.currency} factor={factor} />)}
       </div>
 
-      <Sheet open={createOpen} onOpenChange={setCreateOpen}>
-        <SheetContent side="bottom" className="mx-auto max-w-md rounded-t-2xl p-0">
-          <SheetHeader className="p-4"><SheetTitle className="text-center">Create</SheetTitle></SheetHeader>
-          <Button variant="plain" onClick={() => { setCreateOpen(false); nav({ to: "/create" }); }} className="flex w-full items-center gap-4 px-4 py-4 text-left hover:bg-muted">
-            <span className="rounded-lg border p-3"><Plus className="h-5 w-5" /></span>
-            <span className="flex-1"><span className="block font-medium">Create campaign</span><span className="text-sm text-muted-foreground">Create and publish a new campaign</span></span><ChevronRight className="h-5 w-5" />
-          </Button>
-          <Button variant="plain" onClick={() => { setCreateOpen(false); setDupOpen(true); }} className="mb-6 flex w-full items-center gap-4 border-t px-4 py-4 text-left hover:bg-muted">
-            <span className="rounded-lg border p-3"><Copy className="h-5 w-5" /></span>
-            <span className="flex-1"><span className="block font-medium">Duplicate existing</span><span className="text-sm text-muted-foreground">Create using an existing campaign</span></span><ChevronRight className="h-5 w-5" />
-          </Button>
-        </SheetContent>
-      </Sheet>
+      <EngagementSetup open={createOpen} onOpenChange={setCreateOpen} />
       <DuplicateSheet open={dupOpen} onOpenChange={setDupOpen} />
       <Notifications open={notificationsOpen} onOpenChange={setNotificationsOpen} read={readNotifications} onRead={setReadNotifications} campaignId={mine[0]?.id} />
       <Button variant="outline" size="icon" aria-label="Open assistant" title="Assistant" className="meta-assistant-launcher" onClick={() => setAssistantOpen(true)}><AssistantIcon /></Button>
