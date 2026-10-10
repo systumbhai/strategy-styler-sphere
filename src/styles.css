@@ -380,6 +380,148 @@
 .campaign-reference .campaign-setup p { font-size:18px; line-height:26px; }
 .campaign-reference .campaign-setup svg { width:27px; height:27px; stroke-width:1.5; }
 .campaign-demo-label { font-size:12px; color:var(--muted-foreground); padding-top:12px; }
+/* Latest engagement and payment reference screens. */
+:root {
+ --payment-blue: oklch(0.52 0.23 258);
+ --payment-ink: oklch(0.15 0.012 210);
+ --payment-visa: oklch(0.35 0.19 270);
+ --payment-red: oklch(0.58 0.24 28);
+ --payment-yellow: oklch(0.85 0.18 88);
+ --payment-purple: oklch(0.48 0.2 300);
+ --payment-green: oklch(0.57 0.16 150);
+ --setup-post: oklch(0.9 0.16 92);
+ --setup-content: oklch(0.8 0.17 76);
+ --setup-hand: oklch(0.4 0.1 44);
+ --setup-messaging: oklch(0.84 0.065 177);
+ --setup-bubble: oklch(0.65 0.12 182);
+ --setup-muted: oklch(0.88 0.022 95);
+ --setup-quick: oklch(0.83 0.012 235);
+ --shadow-qr: 0 5px 24px oklch(0.2 0 0 / 18%);
+}
+.reference-recommendation-actions { display:grid; grid-template-columns:2fr 3fr; gap:12px; margin-top:20px; }
+.reference-recommendation-actions button { height:64px; font-size:23px; font-weight:400; }
+.engagement-setup-sheet { width:100%; max-width:590px; margin:auto; padding:0 24px 24px; max-height:94dvh; overflow-y:auto; border-radius:24px 24px 0 0; gap:0; background:var(--card); }
+.engagement-setup-header { min-height:116px; border-bottom:1px solid var(--border); margin:0 -24px; padding:28px 56px; display:flex; justify-content:center; }
+.engagement-setup-header h2 { font-size:26px; text-align:center; }
+.engagement-setup-sheet > button { top:43px; right:26px; }
+.engagement-setup-sheet > button svg { width:25px; height:25px; stroke-width:1.5; }
+.engagement-setup-body { padding-top:32px; }
+.setup-group-label { display:inline-flex; align-items:center; gap:6px; font-size:18px; font-weight:600; padding:5px 12px; border-radius:30px; background:var(--muted); }
+.setup-quick-label { color:var(--card); background:var(--setup-quick); }
+.setup-group-label svg { width:17px; height:17px; }
+.engagement-setup-option { display:grid; grid-template-columns:74px minmax(0,1fr) 24px; gap:18px; width:100%; padding:26px 0; text-align:left; }
+.engagement-setup-option strong { display:block; font-size:23px; line-height:1.25; }
+.engagement-setup-option > span > span { display:block; font-size:18px; font-weight:400; color:var(--muted-foreground); line-height:1.35; margin-top:3px; }
+.engagement-setup-option > svg { width:24px; height:24px; }
+.setup-illustration { width:74px; height:74px; border-radius:50%; display:grid; place-items:center; flex-shrink:0; }
+.setup-illustration svg { width:74px; height:74px; }
+.setup-post { background:var(--setup-post); }
+.setup-messaging { background:var(--setup-messaging); }
+.setup-paper { fill:var(--card); }
+.setup-muted { fill:var(--setup-muted); }
+.setup-content { fill:var(--setup-content); }
+.setup-hand { fill:var(--setup-hand); }
+.setup-ink { stroke:var(--setup-bubble); }
+.setup-bubble { fill:var(--setup-bubble); }
+.setup-manual { background:var(--muted); }
+.setup-manual svg { width:34px; height:34px; stroke:var(--muted); }
+.setup-manual-section { border-top:1px solid var(--border); padding-top:30px; }
+.reference-fund-flow { position:relative; color:var(--payment-ink); }
+.fund-flow-header { display:grid; grid-template-columns:36px minmax(0,1fr) 36px; gap:32px; align-items:center; min-height:142px; padding:30px 24px; border-bottom:1px solid var(--border); box-shadow:0 2px 5px var(--border); }
+.fund-flow-header h1 { font-size:28px; font-weight:500; }
+.fund-flow-header svg { width:30px; height:30px; stroke-width:1.7; }
+.fund-flow-body { padding:62px 24px 140px; }
+.fund-flow-body h2 { font-size:24px; font-weight:500; margin-bottom:14px; }
+.fund-flow-body > p { font-size:21px; line-height:1.35; }
+.fund-amount-presets { display:flex; gap:12px; margin:20px 0 16px; }
+.fund-amount-presets button { height:46px; font-size:22px; }
+.fund-amount-presets button[aria-pressed=true] { background:var(--foreground); color:var(--card); }
+.fund-amount-input { display:flex; flex-direction:column; border:1px solid var(--input); border-radius:24px; padding:16px 24px; font-size:19px; color:var(--muted-foreground); }
+.fund-input-line { display:flex; align-items:center; color:var(--payment-ink); font-size:24px; gap:8px; }
+.fund-input-line input { min-width:0; width:100%; background:transparent; outline:none; appearance:textfield; }
+.fund-input-line input::-webkit-inner-spin-button { appearance:none; }
+.fund-flow-body > p.fund-amount-hint { margin-top:15px; font-size:18px; }
+.fund-flow-body h2.fund-method-heading { margin-top:66px; margin-bottom:24px; }
+.fund-methods label { display:flex; align-items:center; gap:10px; min-height:66px; font-size:22px; cursor:pointer; }
+.fund-methods input { margin-left:auto; appearance:none; width:29px; height:29px; border:3px solid var(--muted-foreground); border-radius:50%; flex-shrink:0; }
+.fund-methods input:checked { border-color:var(--primary); background:radial-gradient(circle,var(--primary) 0 7px,transparent 8px); }
+.payment-marks { display:flex; gap:4px; align-items:center; }
+.payment-marks > span { border:1px solid var(--input); width:43px; height:30px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; background:var(--card); }
+.payment-marks .payment-visa { background:var(--payment-visa); color:var(--card); font-style:italic; }
+.payment-master { background:var(--payment-visa) !important; }
+.payment-master i { width:16px; height:16px; border-radius:50%; background:var(--payment-red); }
+.payment-master i+i { margin-left:-5px; background:var(--payment-yellow); }
+.payment-rupay { font-style:italic; color:var(--payment-visa); }
+.payment-upi { color:var(--muted-foreground); font-style:italic; }
+.payment-upi span { color:var(--payment-green); }
+.payment-gpay b { font-size:15px; color:var(--primary); }
+.payment-phone { background:var(--payment-purple) !important; color:var(--card); font-size:17px !important; }
+.payment-paytm { color:var(--primary); }
+.payment-marks svg { width:24px; height:24px; }
+.reference-fund-flow .funds-footer button { border-radius:36px; background:var(--payment-blue); }
+.fund-processing { position:absolute; inset:0; background:color-mix(in oklab,var(--card) 80%,transparent); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; z-index:40; font-size:19px; min-height:100dvh; }
+.fund-processing svg { width:30px; height:30px; animation:fund-spin 900ms linear infinite; }
+@keyframes fund-spin { to { transform:rotate(360deg); } }
+.fund-complete-body { padding:28px 24px 40px; }
+.fund-meta-mark { display:flex; align-items:center; gap:5px; font-size:23px; color:var(--foreground); }
+.fund-meta-mark svg { width:29px; height:22px; color:var(--primary); }
+.fund-meta-mark > span { font-size:12px; color:var(--muted-foreground); margin-left:4px; }
+.fund-payment-amount { text-align:center; font-size:36px; font-weight:600; margin:44px 0 38px; }
+.fund-qr { width:286px; height:286px; margin:auto; border-radius:40px; background:var(--card); box-shadow:var(--shadow-qr); display:grid; place-items:center; }
+.fund-qr svg { max-width:80%; height:auto; }
+.fund-qr-expired svg { width:70px; color:var(--muted-foreground); }
+.fund-pay-app { width:100%; height:64px; border-radius:36px; font-size:22px; margin:30px 0 42px; font-weight:400; }
+.fund-payment-details { border-top:1px solid var(--input); padding-top:28px; display:flex; flex-direction:column; gap:40px; }
+.fund-payment-details > div { display:grid; grid-template-columns:30px minmax(0,1fr); gap:20px; align-items:center; }
+.fund-payment-details svg { width:31px; height:31px; stroke-width:1.8; }
+.fund-payment-details p { font-size:19px; line-height:1.4; color:var(--muted-foreground); overflow-wrap:anywhere; }
+.fund-inline-link { display:inline; height:auto; padding:0; font-size:inherit; white-space:normal; font-weight:400; }
+.fund-countdown { display:block; color:var(--foreground); font-size:16px; margin-top:3px; font-variant-numeric:tabular-nums; }
+.fund-demo-note,.fund-flow-body > p.fund-demo-note { margin-top:26px; color:var(--muted-foreground); font-size:12px; }
+.fund-demo-confirm { border-top:1px solid var(--border); margin-top:20px; padding-top:16px; }
+.fund-demo-confirm p { font-size:15px; margin-bottom:12px; }
+.fund-demo-confirm button { width:100%; }
+@media(max-width:500px) {
+ .reference-recommendation-actions { margin-top:14px; gap:8px; }
+ .reference-recommendation-actions button { height:46px; font-size:18px; }
+ .engagement-setup-sheet { padding:0 16px 22px; }
+ .engagement-setup-header { margin:0 -16px; padding:24px 42px; min-height:88px; }
+ .engagement-setup-header h2 { font-size:20px; }
+ .engagement-setup-sheet > button { top:32px; right:16px; }
+ .engagement-setup-body { padding-top:24px; }
+ .setup-group-label { font-size:15px; }
+ .engagement-setup-option { grid-template-columns:55px minmax(0,1fr) 18px; gap:12px; padding:22px 0; }
+ .engagement-setup-option strong { font-size:18px; }
+ .engagement-setup-option > span > span { font-size:15px; }
+ .setup-illustration,.setup-illustration svg { width:55px; height:55px; }
+ .setup-manual svg { width:29px; height:29px; }
+ .fund-flow-header { min-height:94px; gap:16px; padding:20px 16px; }
+ .fund-flow-header h1 { font-size:22px; }
+ .fund-flow-header svg { width:25px; height:25px; }
+ .fund-flow-body { padding:42px 16px 120px; }
+ .fund-flow-body h2 { font-size:20px; }
+ .fund-flow-body > p { font-size:16px; }
+ .fund-amount-presets button { font-size:17px; height:38px; }
+ .fund-amount-input { padding:12px 16px; font-size:15px; border-radius:18px; }
+ .fund-input-line { font-size:20px; }
+ .fund-flow-body > p.fund-amount-hint { font-size:14px; }
+ .fund-flow-body h2.fund-method-heading { margin-top:46px; margin-bottom:18px; }
+ .fund-methods label { font-size:16px; min-height:52px; gap:7px; }
+ .payment-marks { gap:3px; }
+ .payment-marks > span { width:31px; height:23px; font-size:8px; }
+ .payment-master i { width:13px; height:13px; }
+ .fund-methods input { width:23px; height:23px; border-width:2px; }
+ .fund-methods input:checked { background:radial-gradient(circle,var(--primary) 0 6px,transparent 7px); }
+ .fund-complete-body { padding:24px 16px; }
+ .fund-payment-amount { font-size:28px; margin:34px 0 26px; }
+ .fund-qr { width:230px; height:230px; border-radius:32px; }
+ .fund-pay-app { height:48px; font-size:18px; margin:24px 0 30px; }
+ .fund-payment-details { gap:30px; padding-top:24px; }
+ .fund-payment-details > div { gap:14px; grid-template-columns:26px minmax(0,1fr); }
+ .fund-payment-details svg { width:26px; height:26px; }
+ .fund-payment-details p { font-size:15px; }
+ .fund-countdown { font-size:13px; }
+}
 .campaign-options { display:flex; justify-content:flex-end; padding:12px 24px; background:var(--card); }
 @media(max-width:500px) {
  .campaign-reference { padding-top:0; }

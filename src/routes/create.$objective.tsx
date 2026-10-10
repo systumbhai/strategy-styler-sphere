@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { OrderConfirmation } from "@/components/ads/OrderConfirmation";
 
 export const Route = createFileRoute("/create/$objective")({
-  validateSearch: (s: Record<string, unknown>): { edit?: string } => (typeof s["edit"] === "string" ? { edit: s["edit"] as string } : {}),
+  validateSearch: (s: Record<string, unknown>): { edit?: string; setup?: "post" | "messaging" | "manual" } => ({ edit: typeof s["edit"] === "string" ? s["edit"] : undefined, setup: s["setup"] === "post" || s["setup"] === "messaging" || s["setup"] === "manual" ? s["setup"] : undefined }),
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },
@@ -30,7 +30,7 @@ const today = new Date().toISOString().slice(0, 10);
 
 function Builder() {
   const { objective } = Route.useParams();
-  const { edit } = Route.useSearch();
+  const { edit, setup } = Route.useSearch();
   const obj = (objective in OBJECTIVES ? objective : "traffic") as ObjectiveKey;
   const acct = useCurrentAccount();
   const existing = useAds((s) => s.campaigns.find((c) => c.id === edit));
@@ -48,7 +48,7 @@ function Builder() {
     accountId: acct.id,
     name: `New ${OBJECTIVES[obj].label} Campaign`,
     objective: obj,
-    ...(obj === "engagement" ? { conversionLocation: "website" as const, conversionEvent: "Subscribe" as const } : {}),
+    ...(obj === "engagement" ? { conversionLocation: setup === "messaging" ? "messages" as const : "website" as const, conversionEvent: setup === "messaging" || setup === "post" ? undefined : "Subscribe" as const } : {}),
     budgetType: "daily",
     budget: acct.currency === "INR" ? 200 : 5,
     startDate: today,
@@ -56,7 +56,7 @@ function Builder() {
     audience: { location: "India", ageMin: 18, ageMax: 65, gender: "all", interests: "" },
     placements: "advantage",
     platforms: ["Facebook", "Instagram", "Messenger"],
-    ad: { headline: "", primaryText: "", cta: obj === "engagement" ? "Subscribe" : "Learn more", url: "https://", image: "" },
+    ad: { headline: "", primaryText: "", cta: setup === "messaging" ? "Send message" : setup === "post" ? "Learn more" : obj === "engagement" ? "Subscribe" : "Learn more", url: "https://", image: "" },
   });
   const up = (p: Partial<Campaign>) => setF((x) => ({ ...x, ...p }));
   const aud = (p: Partial<Campaign["audience"]>) => setF((x) => ({ ...x, audience: { ...x.audience, ...p } }));

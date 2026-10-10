@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Frame, PageHeader } from "@/components/ads/Shell";
 import { actions, money, useCurrentAccount } from "@/lib/ads-store";
+import { AddFundsFlow } from "@/components/ads/AddFundsFlow";
 
 export const Route = createFileRoute("/billing")({
   head: () => ({
@@ -31,29 +32,12 @@ function Billing() {
   const [via, setVia] = useState("UPI");
   const [method, setMethod] = useState({ type: "Card", value: "" });
   const [gst, setGst] = useState("");
-  const [fundStep, setFundStep] = useState<"amount" | "success" | null>(null);
-  const [added, setAdded] = useState(0);
+  const [fundOpen, setFundOpen] = useState(false);
   const close = () => { setM(null); setAmount(""); };
   const section = "border-b py-4";
   const softBtn = "mt-3 w-full rounded-md bg-accent py-2.5 font-medium text-accent-foreground";
 
-  if (fundStep) return <Frame nav={false}>
-    <div className="funds-page">
-      <header className="flex h-16 items-center gap-3 border-b px-4">
-        <Button variant="ghost" size="icon" aria-label="Back to billing" onClick={() => setFundStep(null)}><ArrowLeft className="h-6 w-6" /></Button>
-        <h1 className="flex-1 text-center text-lg font-semibold">Add payment information</h1>
-        <Button variant="ghost" size="icon" aria-label="Close payment" onClick={() => setFundStep(null)}><X className="h-6 w-6" /></Button>
-      </header>
-      {fundStep === "success" ? <div className="funds-success"><CircleCheck /><h2 className="text-xl font-bold">{money(added, a.currency)} successfully added</h2><p className="mt-1 text-lg">You now have {money(a.funds, a.currency)} in available funds.</p><p className="mt-5 text-xs text-muted-foreground">Demo balance · No payment was charged</p></div> : <div className="funds-body">
-        <h2 className="text-2xl font-bold">Add funds</h2><p className="mt-2 text-sm text-muted-foreground">Available funds: {money(a.funds, a.currency)}</p>
-        <label className="mt-8 block font-semibold">Amount ({a.currency})<input aria-label="Amount" type="number" min="1" value={amount} onChange={e => setAmount(e.target.value)} className="mt-2 h-14 w-full rounded-md border bg-card px-4 text-2xl outline-none focus:border-primary" /></label>
-        <div className="mt-3 flex gap-2">{[1000,3000,5000].map(v => <Button key={v} variant="metaOutline" className={`h-11 flex-1 ${amount===String(v)?"border-primary bg-accent text-accent-foreground":""}`} onClick={() => setAmount(String(v))}>{money(v,a.currency)}</Button>)}</div>
-        <h3 className="mt-8 font-semibold">Payment method</h3><div className="mt-3 divide-y rounded-md border">{[{name:"UPI",icon:Smartphone},{name:"Card",icon:CreditCard},{name:"Net banking",icon:Landmark}].map(({name,icon:Icon}) => <label key={name} className="flex cursor-pointer items-center gap-3 p-4"><Icon className="h-5 w-5" /><span className="flex-1">{name}</span><input type="radio" name="payment" checked={via===name} onChange={() => setVia(name)} /></label>)}</div>
-        <p className="mt-6 text-xs text-muted-foreground">Demo payment. No real funds will be charged.</p>
-      </div>}
-      <div className="funds-footer"><Button variant="meta" disabled={fundStep === "amount" && !(Number(amount)>0 && Number.isFinite(Number(amount)))} onClick={() => { if(fundStep === "success") {setFundStep(null);return;} const value=Number(amount);actions.addFunds(a.id,value,via);setAdded(value);setFundStep("success"); }}>{fundStep === "success" ? "Done" : "Add funds"}</Button></div>
-    </div>
-  </Frame>;
+  if (fundOpen) return <Frame nav={false}><AddFundsFlow account={a} onClose={() => setFundOpen(false)} /></Frame>;
 
   return (
     <Frame nav={false}>
@@ -73,7 +57,7 @@ function Billing() {
             <span className="flex-1"><span className="block font-bold">Available funds</span><span className="text-sm text-muted-foreground">We'll deduct funds about once a day when you run ads. If funds run out, your ads will be paused.</span>
             <span className="mt-2 block text-2xl font-bold">{money(a.funds, a.currency)}</span></span><ChevronRight className="mt-8 h-5 w-5" />
           </Button>
-          <Button variant="plain" onClick={() => { setAmount("3000"); setFundStep("amount"); }} className={softBtn}>Add funds</Button>
+          <Button variant="plain" onClick={() => setFundOpen(true)} className={softBtn}>Add funds</Button>
         </div>
         <div className={section}>
           <p className="font-bold">Payment methods</p>

@@ -90,8 +90,7 @@ function Home() {
         <p className="mt-3 text-base">Potential outcome: <span className="font-semibold text-tint">More ways to connect with your audience</span></p>
         <p className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">Creative recommendation <Info className="h-3.5 w-3.5" /></p>
         <div className="mt-4 flex min-w-0 items-center gap-3 border-t pt-4">{recommended.ad.image && <img src={recommended.ad.image} className="h-8 w-8 shrink-0 rounded object-cover" alt="Recommended ad" />}<span className="min-w-0 truncate">{recommended.name}</span></div>
-        <Button variant="metaOutline" className="mt-3 h-11 w-full text-base" onClick={() => { setPreview(true); toast("Demo ad preview opened; desktop transfer is not connected."); }}><MonitorUp />Send to desktop</Button>
-        <Button variant="link" className="mt-1 h-8 w-full" onClick={() => nav({ to: "/recommendations" })}>Review recommendations</Button>
+        <div className="reference-recommendation-actions"><Button variant="metaOutline" onClick={() => setPreview(true)}>Preview</Button><Button variant="meta" onClick={() => { actions.updateCampaign(recommended.id, { placements: "advantage" }); actions.dismissRecommendation(recommended.id); toast.success("Recommendation applied to demo campaign"); }}>Apply now</Button></div>
       </Card>}
       <div className="meta-section-title">
         <h2>Campaigns</h2>
