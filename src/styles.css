@@ -400,7 +400,7 @@
 }
 .reference-recommendation-actions { display:grid; grid-template-columns:2fr 3fr; gap:12px; margin-top:20px; }
 .reference-recommendation-actions button { height:64px; font-size:23px; font-weight:400; }
-.engagement-setup-sheet { width:100%; max-width:590px; margin:auto; padding:0 24px 24px; max-height:94dvh; overflow-y:auto; border-radius:24px 24px 0 0; gap:0; }
+.engagement-setup-sheet { width:100%; max-width:590px; margin:auto; padding:0 24px 24px; max-height:94dvh; overflow-y:auto; border-radius:24px 24px 0 0; gap:0; background:var(--card); }
 .engagement-setup-header { min-height:116px; border-bottom:1px solid var(--border); margin:0 -24px; padding:28px 56px; display:flex; justify-content:center; }
 .engagement-setup-header h2 { font-size:26px; text-align:center; }
 .engagement-setup-sheet > button { top:43px; right:26px; }

@@ -4,7 +4,7 @@
 - [x] Verify existing actions and screen layouts.
 
 # Latest reference screens
-- [ ] Replace Send to desktop with Preview and Apply now.
-- [ ] Show engagement setup choices when creating a campaign.
-- [ ] Match add-funds, processing and QR screens with five-minute expiry.
-- [ ] Verify the updated flows and expiry rules.
+- [x] Replace Send to desktop with Preview and Apply now.
+- [x] Show engagement setup choices when creating a campaign.
+- [x] Match add-funds, processing and QR screens with five-minute expiry.
+- [x] Verify the updated flows and expiry rules.
