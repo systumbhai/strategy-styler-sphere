@@ -565,9 +565,9 @@
 .fund-waiting { display:flex; align-items:center; justify-content:center; gap:10px; margin-top:18px; padding:12px; border-radius:10px; background:var(--muted); color:var(--muted-foreground); font-size:14px; }
 .fund-waiting svg { width:18px; height:18px; animation:spin 1s linear infinite; color:var(--primary); }
 .fund-done { min-height:calc(100dvh - 190px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:24px 28px; }
-.fund-done-check { width:112px; height:112px; border-radius:999px; border:6px solid var(--success); display:grid; place-items:center; color:var(--success); margin-bottom:28px; animation:fund-pop .4s ease-out; }
-.fund-done-check svg { width:44px; height:44px; stroke-width:3; }
-.fund-done h2 { font-size:30px; font-weight:700; line-height:1.2; color:var(--foreground); }
-.fund-done p { margin-top:14px; font-size:18px; line-height:1.45; color:var(--muted-foreground); }
+.fund-done-check { width:80px; height:80px; border-radius:999px; border:4px solid var(--success); display:grid; place-items:center; color:var(--success); margin-bottom:28px; animation:fund-pop .4s ease-out; }
+.fund-done-check svg { width:32px; height:32px; stroke-width:3; }
+.fund-done h2 { font-size:22px; font-weight:700; line-height:1.2; color:var(--foreground); }
+.fund-done p { margin-top:12px; font-size:15px; line-height:1.45; color:var(--muted-foreground); }
 @keyframes fund-pop { 0% { transform:scale(.5); opacity:0; } 70% { transform:scale(1.08); } 100% { transform:scale(1); opacity:1; } }
 @keyframes spin { to { transform:rotate(360deg); } }
