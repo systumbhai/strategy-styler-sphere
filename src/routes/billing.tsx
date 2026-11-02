@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Frame, PageHeader } from "@/components/ads/Shell";
 import { actions, money, useCurrentAccount } from "@/lib/ads-store";
 import { AddFundsFlow } from "@/components/ads/AddFundsFlow";
+import { PaymentActivity } from "@/components/ads/PaymentActivity";
 
 export const Route = createFileRoute("/billing")({
   head: () => ({
@@ -37,6 +38,7 @@ function Billing() {
   const section = "border-b py-4";
   const softBtn = "mt-3 w-full rounded-md bg-accent py-2.5 font-medium text-accent-foreground";
 
+  if (m === "activity") return <Frame nav={false}><PaymentActivity account={a} onClose={close} /></Frame>;
   if (fundOpen) return <Frame nav={false}><AddFundsFlow account={a} onClose={() => setFundOpen(false)} /></Frame>;
 
   return (
