@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createFundRequest, fundRequestExpired, validFundAmount } from "@/lib/fund-request";
+import { createFundRequest, fundRequestAutoCompleted, fundRequestExpired, validFundAmount } from "@/lib/fund-request";
 
 describe("Reference fund requests", () => {
   it("expires exactly five minutes after creation", () => {
@@ -14,5 +14,10 @@ describe("Reference fund requests", () => {
     expect(validFundAmount(97185)).toBe(true);
     expect(validFundAmount(97185.01)).toBe(false);
     expect(validFundAmount(NaN)).toBe(false);
+  });
+  it("completes the payment 10 seconds after the QR appears", () => {
+    const request = createFundRequest(5000, 1000);
+    expect(fundRequestAutoCompleted(request, 10999)).toBe(false);
+    expect(fundRequestAutoCompleted(request, 11000)).toBe(true);
   });
 });
