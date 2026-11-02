@@ -13,7 +13,7 @@ export function PaymentActivity({ account, onClose }: { account: Account; onClos
         <div><ReceiptText /><p>{account.name} ({account.id})</p></div>
         {account.transactions.length === 0
           ? <div><Wallet /><p>No payment activity yet.</p></div>
-          : account.transactions.map(t => <div key={t.id}><ClockFading /><p className="activity-row"><span><span className="activity-label">{t.label}</span><span className="block">{t.date}</span></span><span className="activity-value">{rupee(t.amount)}</span></p></div>)}
+          : account.transactions.map(t => <div key={t.id}><ClockFading /><p className="activity-row"><span><span className="activity-label">{t.label}</span><span className="block">{new Date(t.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span></span><span className="activity-value">{rupee(t.amount)}</span></p></div>)}
         <div><Info /><p>UPI processing times may vary. If you already paid, you can close this screen and check back later for your updated balance.</p></div>
       </div>
     </div>
