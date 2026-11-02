@@ -40,8 +40,6 @@ export function AddFundsFlow({ account, onClose }: { account: Account; onClose: 
     setStep("success");
   }, [step, request, now, account.id, via]);
   const expired = request ? fundRequestExpired(request.expiresAt, now) : false;
-  const seconds = request ? Math.max(0, Math.ceil((request.expiresAt - now) / 1000)) : 300;
-  const countdown = `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
   const back = () => { if (step === "qr") { setStep("amount"); setWaitingHint(false); } else onClose(); };
   return <div className="funds-page reference-fund-flow">
     <header className="fund-flow-header"><Button variant="plain" size="icon" aria-label="Back" onClick={back}><ChevronLeft /></Button><h1>{step === "qr" || step === "success" ? "Complete payment" : "Add funds"}</h1><Button variant="plain" size="icon" aria-label="Close payment" onClick={onClose}><X /></Button></header>
