@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ChevronLeft, X, Landmark, Clock, Info, Grid2X2, ReceiptText, LoaderCircle, Check } from "lucide-react";
+import { ChevronLeft, X, Landmark, Clock, ClockFading, Info, LayoutGrid, ReceiptText, LoaderCircle, Check } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@/components/ui/button";
 import { actions, money, type Account } from "@/lib/ads-store";
@@ -17,6 +17,8 @@ export function AddFundsFlow({ account, onClose }: { account: Account; onClose: 
   const [now, setNow] = useState(0);
   const [appsOpen, setAppsOpen] = useState(false);
   const [waitingHint, setWaitingHint] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const rupee = (n: number) => money(n, account.currency).replace(/^(\D+)/, "$1 ");
   useEffect(() => {
     if (step !== "processing") return;
     const timer = setTimeout(() => {
@@ -46,34 +48,32 @@ export function AddFundsFlow({ account, onClose }: { account: Account; onClose: 
     {(step === "amount" || step === "processing") && <>
       <div className="fund-flow-body">
         <h2>Choose amount</h2><p>Choose an amount to add to your available funds. We'll deduct from your total as your ads run.</p>
-        <div className="fund-amount-presets"><Button variant="metaOutline" aria-pressed={amount === String(FUND_MAX)} onClick={() => setAmount(String(FUND_MAX))}>{money(FUND_MAX, account.currency)}</Button><Button variant="metaOutline" aria-pressed={amount !== String(FUND_MAX)} onClick={() => setAmount("5000")}>Other</Button></div>
-        <label className="fund-amount-input"><span>Amount</span><span className="fund-input-line"><span>{account.currency === "INR" ? "₹" : "$"}</span><input aria-label="Amount" type="number" min={FUND_MIN} max={FUND_MAX} step="0.01" value={amount} onChange={e => setAmount(e.target.value)} /></span></label>
-        <p className="fund-amount-hint">Enter an amount between {money(FUND_MIN, account.currency)} and {money(FUND_MAX, account.currency)}.</p>
+        <div className="fund-amount-presets"><Button variant="metaOutline" aria-pressed={amount === String(FUND_MAX)} onClick={() => setAmount(String(FUND_MAX))}>{rupee(FUND_MAX)}</Button><Button variant="metaOutline" aria-pressed={amount !== String(FUND_MAX)} onClick={() => setAmount("5000")}>Other</Button></div>
+        <label className="fund-amount-input"><span>Amount</span><span className="fund-input-line"><span>{account.currency === "INR" ? "₹" : "$"}</span><input aria-label="Amount" type={editing ? "number" : "text"} inputMode="decimal" min={FUND_MIN} max={FUND_MAX} step="0.01" value={editing || !validFundAmount(Number(amount)) ? amount : Number(amount).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} onFocus={() => setEditing(true)} onBlur={() => setEditing(false)} onChange={e => setAmount(e.target.value.replace(/,/g, ""))} /></span></label>
+        <p className="fund-amount-hint">Enter an amount between {rupee(FUND_MIN)} and {rupee(FUND_MAX)}.</p>
         <h2 className="fund-method-heading">Add payment method</h2>
         <div className="fund-methods">{[{ name: "Card", label: "Debit or credit card" }, { name: "UPI", label: "UPI" }, { name: "Net banking", label: "Net Banking" }].map(method => <label key={method.name}><span>{method.label}</span><PaymentMarks kind={method.name} /><input type="radio" name="payment-method" value={method.name} checked={via === method.name} onChange={() => setVia(method.name)} /></label>)}</div>
-        <p className="fund-demo-note">Demo payment · No real money is charged</p>
       </div>
       <div className="funds-footer"><Button variant="meta" disabled={!validFundAmount(Number(amount)) || step === "processing"} onClick={() => setStep("processing")}>Next</Button></div>
     </>}
     {step === "processing" && <div className="fund-processing" role="status"><LoaderCircle /><span>Processing...</span></div>}
     {step === "qr" && request && <div className="fund-complete-body">
-      <div className="fund-meta-mark"><svg viewBox="0 0 42 24" aria-hidden="true"><path d="M3 19C-1 9 9-7 17 8l9 12c8 9 15-4 11-12C29-10 23 11 16 20 7 30 2 18 3 19Z" fill="none" stroke="currentColor" strokeWidth="3" /></svg><strong>Meta</strong><span>Demo</span></div>
-      <h2 className="fund-payment-amount">{money(request.amount, account.currency)}</h2>
+      <div className="fund-meta-mark"><svg viewBox="0 0 42 24" aria-hidden="true"><path d="M3 19C-1 9 9-7 17 8l9 12c8 9 15-4 11-12C29-10 23 11 16 20 7 30 2 18 3 19Z" fill="none" stroke="currentColor" strokeWidth="3" /></svg><strong>Meta</strong></div>
+      <h2 className="fund-payment-amount">{rupee(request.amount)}</h2>
       <div className={`fund-qr ${expired ? "fund-qr-expired" : ""}`}>{!expired ? <QRCodeSVG value={`urn:ads-manager:demo-payment:${account.id}:${request.amount}:${request.expiresAt}`} size={228} marginSize={0} /> : <Clock />}<span className="sr-only">Demo QR code, not a real payment request</span></div>
       <Button variant="metaOutline" className="fund-pay-app" disabled={expired} onClick={() => setWaitingHint(true)}>{via === "UPI" ? "Pay with UPI app" : `Pay with ${via === "Card" ? "card" : "Net Banking"}`}</Button>
       <div className="fund-payment-details">
         <div><ReceiptText /><p>{account.name} ({account.id})</p></div>
-        <div><Clock /><p>{expired ? "Payment request expired" : <>Payment request expires at {new Date(request.expiresAt).toLocaleTimeString("en-IN", { hour: "numeric", minute: "2-digit" })}, {new Date(request.expiresAt).toLocaleDateString("en-IN", { month: "short", day: "numeric" })}<span className="fund-countdown" role="timer">Expires in {countdown}</span></>}</p></div>
-        <div><Grid2X2 /><p>PhonePE, GooglePay, Paytm, and BHIM are supported. <Button variant="link" className="fund-inline-link" onClick={() => setAppsOpen(v => !v)}>All supported apps</Button>{appsOpen && <span className="block mt-2">PhonePe · Google Pay · Paytm · BHIM</span>}</p></div>
+        <div><ClockFading /><p>{expired ? "Payment request expired" : <>Payment request expires at {new Date(request.expiresAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}, {new Date(request.expiresAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</>}</p></div>
+        <div><LayoutGrid /><p>PhonePE, GooglePay, Paytm, and BHIM are supported. <Button variant="link" className="fund-inline-link" onClick={() => setAppsOpen(v => !v)}>All supported apps</Button>{appsOpen && <span className="block mt-2">PhonePe · Google Pay · Paytm · BHIM</span>}</p></div>
         <div><Info /><p>UPI processing times may vary. If you already paid, you can close this screen and check back later for your updated balance.</p></div>
       </div>
-      {!expired && <div className="fund-waiting" role="status"><LoaderCircle /><span>{waitingHint ? "Approve the payment in your UPI app…" : "Waiting for payment…"}</span></div>}
-      <p className="fund-demo-note">Demo QR only · No real money is charged</p>
+      {!expired && waitingHint && <div className="fund-waiting" role="status"><LoaderCircle /><span>Approve the payment in your UPI app…</span></div>}
       {expired && <Button variant="meta" className="w-full" onClick={() => { setWaitingHint(false); setStep("processing"); }}>Generate new QR</Button>}
     </div>}
     {step === "success" && request && <><div className="fund-done">
       <span className="fund-done-check"><Check /></span>
-      <h2>{money(request.amount, account.currency)} successfully added</h2>
+      <h2>{rupee(request.amount)} successfully added</h2>
       <p>Your balance may take a few minutes to update in your account.</p>
     </div><div className="funds-footer"><Button variant="meta" onClick={onClose}>Done</Button></div></>}
   </div>;
