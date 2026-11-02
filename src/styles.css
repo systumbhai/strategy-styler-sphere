@@ -576,10 +576,10 @@
 .activity-list { padding:0 24px; }
 .activity-list li { border-bottom:1px solid var(--input); }
 .activity-item { display:flex; width:100%; align-items:center; gap:16px; padding:22px 4px 22px 14px; text-align:left; height:auto; border-radius:0; }
-.activity-main { flex:1; display:flex; flex-direction:column; min-width:0; }
+.activity-main { font-weight:400; flex:1; display:flex; flex-direction:column; min-width:0; }
 .activity-date { font-size:20px; color:var(--payment-ink); }
 .activity-status { font-size:17px; color:var(--muted-foreground); margin-top:2px; }
-.activity-amount-value { font-size:20px; color:var(--muted-foreground); white-space:nowrap; }
+.activity-amount-value { font-weight:400; font-size:20px; color:var(--muted-foreground); white-space:nowrap; }
 .activity-chevron { width:26px; height:26px; color:var(--muted-foreground); stroke-width:2; flex-shrink:0; }
 .activity-empty { padding:32px 24px; color:var(--muted-foreground); }
 @media (max-width: 520px) {
