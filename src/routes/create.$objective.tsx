@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { OrderConfirmation } from "@/components/ads/OrderConfirmation";
 
 export const Route = createFileRoute("/create/$objective")({
-  validateSearch: (s: Record<string, unknown>): { edit?: string; setup?: "post" | "messaging" | "manual" } => ({ edit: typeof s["edit"] === "string" ? s["edit"] : undefined, setup: s["setup"] === "post" || s["setup"] === "messaging" || s["setup"] === "manual" ? s["setup"] : undefined }),
+  validateSearch: (s: Record<string, unknown>): { edit?: string; setup?: "post" | "messaging" | "manual" } => ({ ...(typeof s["edit"] === "string" ? { edit: s["edit"] } : {}), ...(s["setup"] === "post" || s["setup"] === "messaging" || s["setup"] === "manual" ? { setup: s["setup"] } : {}) }),
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },
