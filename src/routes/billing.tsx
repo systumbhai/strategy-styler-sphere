@@ -111,12 +111,6 @@ function Billing() {
             <input value={gst} onChange={(e) => setGst(e.target.value.toUpperCase())} maxLength={15} placeholder="15-digit GSTIN" className="rounded-md border px-3 py-2" />
             <Button variant="plain" disabled={gst.length !== 15} onClick={() => { actions.updateAccount(a.id, { taxVerified: true }); toast.success("Tax info verified"); close(); }} className="rounded-md bg-primary py-2 font-medium text-primary-foreground disabled:opacity-50">Submit</Button>
           </>)}
-          {m === "activity" && (<>
-            <DialogHeader><DialogTitle>Payment activity</DialogTitle></DialogHeader>
-            {a.transactions.length === 0 ? <p className="text-sm text-muted-foreground">No payment activity yet.</p> : (
-              <ul className="divide-y">{a.transactions.map((t) => <li key={t.id} className="flex justify-between py-2 text-sm"><span>{t.label}<span className="block text-xs text-muted-foreground">{t.date}</span></span><span className="font-medium">{money(t.amount, a.currency)}</span></li>)}</ul>
-            )}
-          </>)}
           {m === "business" && (<>
             <DialogHeader><DialogTitle>Business info</DialogTitle></DialogHeader>
             <input defaultValue={a.name} onBlur={(e) => e.target.value.trim() && actions.updateAccount(a.id, { name: e.target.value.trim() })} className="rounded-md border px-3 py-2" />
