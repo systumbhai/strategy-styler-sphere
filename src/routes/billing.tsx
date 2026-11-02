@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Frame, PageHeader } from "@/components/ads/Shell";
 import { actions, money, useCurrentAccount } from "@/lib/ads-store";
 import { AddFundsFlow } from "@/components/ads/AddFundsFlow";
+import { PaymentActivity } from "@/components/ads/PaymentActivity";
 
 export const Route = createFileRoute("/billing")({
   head: () => ({
@@ -37,6 +38,7 @@ function Billing() {
   const section = "border-b py-4";
   const softBtn = "mt-3 w-full rounded-md bg-accent py-2.5 font-medium text-accent-foreground";
 
+  if (m === "activity") return <Frame nav={false}><PaymentActivity account={a} onClose={close} /></Frame>;
   if (fundOpen) return <Frame nav={false}><AddFundsFlow account={a} onClose={() => setFundOpen(false)} /></Frame>;
 
   return (
@@ -108,12 +110,6 @@ function Billing() {
             <DialogHeader><DialogTitle>Verify tax info</DialogTitle></DialogHeader>
             <input value={gst} onChange={(e) => setGst(e.target.value.toUpperCase())} maxLength={15} placeholder="15-digit GSTIN" className="rounded-md border px-3 py-2" />
             <Button variant="plain" disabled={gst.length !== 15} onClick={() => { actions.updateAccount(a.id, { taxVerified: true }); toast.success("Tax info verified"); close(); }} className="rounded-md bg-primary py-2 font-medium text-primary-foreground disabled:opacity-50">Submit</Button>
-          </>)}
-          {m === "activity" && (<>
-            <DialogHeader><DialogTitle>Payment activity</DialogTitle></DialogHeader>
-            {a.transactions.length === 0 ? <p className="text-sm text-muted-foreground">No payment activity yet.</p> : (
-              <ul className="divide-y">{a.transactions.map((t) => <li key={t.id} className="flex justify-between py-2 text-sm"><span>{t.label}<span className="block text-xs text-muted-foreground">{t.date}</span></span><span className="font-medium">{money(t.amount, a.currency)}</span></li>)}</ul>
-            )}
           </>)}
           {m === "business" && (<>
             <DialogHeader><DialogTitle>Business info</DialogTitle></DialogHeader>

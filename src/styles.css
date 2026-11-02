@@ -571,3 +571,9 @@
 .fund-done p { margin-top:12px; font-size:15px; line-height:1.45; color:var(--muted-foreground); }
 @keyframes fund-pop { 0% { transform:scale(.5); opacity:0; } 70% { transform:scale(1.08); } 100% { transform:scale(1); opacity:1; } }
 @keyframes spin { to { transform:rotate(360deg); } }
+
+.activity-amount-label { text-align:center; margin-top:20px; font-size:15px; color:var(--muted-foreground); }
+.fund-payment-amount.activity-amount { margin-top:6px; }
+.activity-row { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.activity-label { display:block; color:var(--payment-ink); }
+.activity-value { color:var(--payment-ink); font-weight:600; white-space:nowrap; }
